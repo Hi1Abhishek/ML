@@ -1,0 +1,11 @@
+age,workclass,education,marital_status,occupation,relationship,race,sex,hours_per_week,native_country,income
+39,Private,Bachelors,Never-married,Tech-support,Not-in-family,White,Male,40,United-States,<=50K
+50,Self-emp,Bachelors,Married,Exec-managerial,Husband,White,Male,13,United-States,<=50K
+38,Private,HS-grad,Divorced,Handlers-cleaners,Not-in-family,White,Male,40,United-States,<=50K
+53,Private,11th,Married,Handlers-cleaners,Husband,Black,Male,40,United-States,<=50K
+28,Private,Bachelors,Married,Prof-specialty,Wife,Black,Female,40,Cuba,<=50K
+37,Private,Masters,Married,Exec-managerial,Wife,White,Female,40,United-States,>50K
+49,Private,9th,Married,Other-service,Husband,Black,Male,16,Jamaica,<=50K
+52,Self-emp,HS-grad,Married,Exec-managerial,Husband,White,Male,45,United-States,>50K
+31,Private,Masters,Never-married,Prof-specialty,Not-in-family,White,Female,50,United-States,>50K
+42,Private,Bachelors,Married,Exec-managerial,Husband,White,Male,60,United-States,>50K
