@@ -1,429 +1,391 @@
+Performing Steps – Assignment 6 Set A (MLflow Experiment Tracking)
 
+Create project folder and enter it
 
-===============================
-MACHINE LEARNING LAB ASSIGNMENTS
-===============================
-
-Assignment 1: Implementation of Python Basic Libraries
-------------------------------------------------------
-1. Implement basic functions of Statistics and Maths using Numpy and Scipy required for ML.
-   a) Demonstrate usage of methods such as floor(), ceil(), sqrt(), isqrt(), gcd().
-   b) Demonstrate usage of array attributes (ndim, shape, size) and methods (sum(), mean(), sort(), sin(), etc.).
-   c) Demonstrate usage of det() and eig() for determinant and eigenvalues/eigenvectors of a matrix.
-   d) Convert a 1D list into 2D and 3D matrices using NumPy.
-   e) Use numpy.random.Generator to generate random matrices.
-   f) Find the determinant of a matrix using SciPy.
-   g) Find eigenvalues and eigenvectors of a matrix using SciPy.
-
-Assignment 2: Implementation of Pandas and Matplotlib
-------------------------------------------------------
-1. Implement Python Libraries for ML application such as Pandas and Matplotlib.
-   a) Create a Series using pandas and display it.
-   b) Access the index and values of a Series.
-   c) Compare a NumPy array with a Pandas Series.
-   d) Define Series objects with individual indices.
-   e) Access single value of a Series.
-   f) Load datasets in a DataFrame using pandas.
-   g) Use different methods in Matplotlib for visualization.
-
-Assignment 3: Creation and Loading Different Types of Datasets
---------------------------------------------------------------
-1. Create datasets using pandas (dictionary, list, NumPy array, or external files).
-2. Load datasets using sklearn.datasets (Iris, Digits, Diabetes).
-3. Load datasets in Google Colab.
-4. Write a program to compute Mean, Median, Mode, Variance, Standard Deviation using datasets.
-5. Demonstrate various data preprocessing techniques:
-   - Reshaping data
-   - Filtering data
-   - Merging data
-   - Handling missing values
-   - Feature normalization (Min-Max, Scalar, etc.)
-
-Assignment 4: Implementing Neural Networks
-------------------------------------------
-1. Design and implement the following neural networks:
-   a) AND classifier for binary input.
-   b) OR classifier for binary input.
-   c) NAND classifier for binary input.
-   d) XOR classifier for binary input and comment on its inability to classify data.
-   e) Sequential dense neural network for Iris dataset (tune hyperparameters: learning rate, architecture, epochs).
-   f) Sequential dense neural network for Diabetes dataset (tune hyperparameters).
-   g) Sequential dense neural network for Heart dataset (tune hyperparameters).
-
-Assignment 5: Find-S and Candidate Elimination Algorithm
---------------------------------------------------------
-1. Implement the Find-S Algorithm on provided dataset to induce hypotheses.
-2. Implement the Candidate Elimination Algorithm to list and refine hypotheses.
-
-Assignment 6: Implementation of Naïve Bayes Classifier
-------------------------------------------------------
-1. Implement Gaussian Naïve Bayes Classifier using /kaggle/input/adult-dataset/adult.csv.
-   - Handle missing values and categorical variables.
-   - One-hot encode categorical features.
-   - Perform feature scaling using RobustScaler.
-   - Train using GaussianNB and evaluate with accuracy, confusion matrix, and classification report.
-   - Check for overfitting and underfitting.
-2. Implement Multinomial Naïve Bayes Classifier for document classification (Technology, Sports, Politics, Entertainment).
-3. Implement Naïve Bayes Optimal Classifier on given dataset.
-
-Assignment 7: Random Forest Algorithm
--------------------------------------
-1. Implement Random Forest algorithm on MNIST dataset.
-2. Implement Random Forest algorithm on Mental Health dataset.
-3. Implement Random Forest algorithm on Customer Default Payment dataset:
-   - Import and load dataset.
-   - Drop ID column.
-   - Analyze missing data.
-   - Check target variable balance.
-   - Downsample data.
-   - One-hot encode independent variables.
-   - Split dataset into train and test.
-   - Train and evaluate model (accuracy & confusion matrix).
-   - Perform hyperparameter tuning (n_estimators, max_depth, etc.) and display results.
-
-Assignment 8: k-Nearest Neighbors (k-NN)
-----------------------------------------
-1. Predict Sugar of Diabetic Patient given BMI and Age using k=3.
-2. Given dataset:
-
-   Brightness | Saturation | Class
-   ------------|-------------|------
-   40 | 20 | Red
-   50 | 50 | Blue
-   60 | 90 | Blue
-   10 | 25 | Red
-   70 | 70 | Blue
-   60 | 10 | Red
-   25 | 80 | Blue
-
-   Predict class for (Brightness=20, Saturation=35).
-3. Apply k-NN on the Iris dataset and evaluate performance.
-
-===============================
-END OF ASSIGNMENTS
-===============================
+mkdir mlflow_assignment6
+cd mlflow_assignment6
 
 
-Excellent — before I begin: your PDF (`ML lab book final.pdf`) is **a complete practical guide for the Machine Learning (ML) course MSCOSDSC305**, and it includes **8 main assignments** that cover the full workflow of ML — from basic Python libraries to advanced algorithms like Neural Networks, Naïve Bayes, Random Forest, and k-NN.
+Create and activate virtual environment
 
-Below is a **comprehensive explanation of all the concepts** from the PDF, grouped assignment-wise.
-This explanation is written in an **exam + viva + understanding style** — so you can study it directly.
+python -m venv venv
+venv\Scripts\activate
 
----
 
-## 🧩 **Assignment 1 – Python Basic Libraries**
+Install required packages
 
-### Concepts:
+pip install mlflow scikit-learn pandas numpy matplotlib
 
-You learn the **foundation of Python math and numerical operations** for ML.
 
-#### 🔹 Libraries:
+Start MLflow tracking server (keep running)
 
-* **Math:** For basic mathematical operations.
-* **NumPy:** For handling arrays, matrices, and numerical computations.
-* **SciPy:** For advanced scientific calculations (determinants, eigenvalues, optimization, etc.).
+python -m mlflow server --host 127.0.0.1 --port 8080
 
-#### 🔹 Key Concepts:
 
-1. **Math functions:**
+Open browser → http://127.0.0.1:8080
 
-   * `floor(x)` → Largest integer ≤ x
-   * `ceil(x)` → Smallest integer ≥ x
-   * `sqrt(x)` → Square root
-   * `isqrt(n)` → Integer square root
-   * `gcd(a, b)` → Greatest common divisor
+Open new terminal (same folder, activate venv again)
 
-2. **NumPy arrays:**
+venv\Scripts\activate
 
-   * Attributes: `ndim`, `shape`, `size`
-   * Methods: `sum()`, `mean()`, `sort()`, `sin()`, etc.
-   * Reshaping arrays: `reshape()` converts 1D → 2D or 3D.
 
-3. **Matrix operations:**
+Create script file
 
-   * Determinant: `np.linalg.det()`
-   * Eigenvalues/vectors: `np.linalg.eig()`
-   * Element-wise operations and matrix multiplication: `@` or `np.dot()`
+notepad mlflow_tracking.py
 
-4. **Random number generation:**
 
-   * Using `np.random.default_rng(seed)` → reproducible random data.
-   * Distributions: Uniform, Normal, Integers.
+→ Paste the given MLflow tracking code
+→ Save and close.
 
-5. **SciPy advanced operations:**
+Run the experiment
 
-   * `scipy.linalg.det()` → determinant
-   * `scipy.linalg.eig()` → eigen decomposition.
+python mlflow_tracking.py
 
-📘 *Summary:*
-This assignment helps you understand **how ML depends on numerical computing**, and how to manipulate matrices efficiently.
 
----
+View results in browser
+Visit → http://127.0.0.1:8080
 
-## 📊 **Assignment 2 – Pandas and Matplotlib**
+Check:
 
-### Concepts:
+Experiment: Apples_Experiment
 
-You learn **data manipulation** and **visualization**.
+Run name: apple_sales_prediction_model
 
-#### 🔹 Pandas:
+Tabs: Parameters, Metrics, Artifacts
 
-* Data Structures:
+(Optional) Stop server when done → press Ctrl + C in the MLflow server window.
 
-  * `Series` → 1D labeled array.
-  * `DataFrame` → 2D table (rows × columns).
-* Creating Series and DataFrames.
-* Accessing elements by **index** and **labels**.
-* Comparison between NumPy arrays and Pandas Series.
-* Loading datasets from **CSV, Excel**, etc.
-* Methods: `head()`, `describe()`, `info()`, `groupby()`, `value_counts()`.
+✅ Done — Set A complete.
 
-#### 🔹 Matplotlib:
 
-* Visualization library to plot data.
-* Common plots:
+Set B
 
-  * Line plot → `plt.plot()`
-  * Bar chart → `plt.bar()`
-  * Histogram → `plt.hist()`
-  * Scatter plot → `plt.scatter()`
-  * Pie chart → `plt.pie()`
+open : 2. Install Extra Package for Tuning
+pip install hyperopt
 
-📘 *Summary:*
-These tools allow you to **load, explore, clean, and visualize data** before training models.
+pip install setuptools
 
----
+pip install -U wheel hyperopt
 
-## 📁 **Assignment 3 – Creating and Loading Datasets**
 
-### Concepts:
+set C
 
-You explore **data creation, importing, and preprocessing**.
+Performing Steps – Set C (Model Deployment)
 
-#### 🔹 Dataset creation:
+Activate virtual environment
 
-* Using **Pandas**:
+cd C:\Users\ABHISHEK SONTAKKE\mlflow_assignment6
+venv\Scripts\activate
 
-  * From dictionary, list of lists, or list of dictionaries.
-* From **NumPy arrays** with column names.
-* From **external files** like `.csv` or `.xlsx`.
 
-#### 🔹 Loading datasets:
+Start MLflow tracking server (in a separate terminal and keep running)
 
-* From `sklearn.datasets`: `load_iris()`, `load_digits()`, `load_diabetes()`.
-* Uploading datasets in **Google Colab** via `files.upload()`.
+python -m mlflow server --host 127.0.0.1 --port 8080
 
-#### 🔹 Descriptive statistics:
 
-Compute **Mean, Median, Mode, Variance, Standard Deviation** using `numpy` or `pandas`.
+Open browser → http://127.0.0.1:8080
 
-#### 🔹 Data preprocessing:
+Verify that your model is registered
 
-* **Reshaping** data → `reshape()`
-* **Filtering** data → logical conditions
-* **Merging** → `pd.merge()`
-* **Handling missing values** → `fillna()`, `dropna()`
-* **Normalization** → scale values between 0–1 (Min-Max, Z-score)
+Sidebar → Models
 
-📘 *Summary:*
-This forms the **data preparation step** in ML pipelines.
+Check model name wine-quality-predictor, Stage = Staging
 
----
+Serve the model as a REST API
 
-## 🧠 **Assignment 4 – Neural Networks**
+mlflow models serve -m "models:/wine-quality-predictor/Staging" -p 1234
 
-### Concepts:
 
-Covers the **fundamentals of Artificial Neural Networks (ANNs)**.
+or (specify version directly)
 
-#### 🔹 Structure:
+mlflow models serve -m "models:/wine-quality-predictor/1" -p 1234
 
-* **Input layer** → takes features.
-* **Hidden layers** → perform transformations.
-* **Output layer** → produces predictions.
 
-#### 🔹 Types of Neural Networks:
+Keep this window open.
+Server URL → http://127.0.0.1:1234
 
-* **Feedforward Neural Network:** Data flows in one direction.
-* **Feedback / Recurrent Network:** Has loops (used in time series).
+Create input file for prediction
 
-#### 🔹 Key Terms:
+notepad input.json
 
-* **Neuron:** Small computational unit that applies an activation function.
-* **Activation Functions:**
 
-  * Sigmoid → converts input to range [0, 1]
-  * Tanh → [-1, 1]
-  * ReLU → max(0, x)
-  * Softmax → output probabilities.
-* **Epoch:** One complete training cycle.
-* **Learning Rate:** Controls how much weights update.
-* **Cost Function:** Measures prediction error (e.g., Mean Squared Error, Cross-Entropy).
-* **Gradient Descent:** Optimization algorithm to reduce cost.
-* **Weights & Biases:** Parameters learned during training.
+Paste:
 
-#### 🔹 Neural network design tasks:
+{
+  "columns": ["alcohol","malic_acid","ash","alcalinity_of_ash","magnesium",
+              "total_phenols","flavanoids","nonflavanoid_phenols",
+              "proanthocyanins","color_intensity","hue",
+              "od280/od315_of_diluted_wines","proline"],
+  "data": [[13.2,1.78,2.14,11.2,100,2.65,2.76,0.26,1.28,10.45,1.22,2.31,1030]]
+}
 
-* Build models for **AND, OR, NAND, XOR** logic gates.
-* Build classifiers for **Iris**, **Diabetes**, and **Heart** datasets.
-* Perform **hyperparameter tuning** (learning rate, epochs, layers).
 
-📘 *Summary:*
-This assignment gives insight into how ML models learn through layers and weight updates.
+Send prediction request
 
----
+curl -X POST -H "Content-Type: application/json" --data @input.json http://127.0.0.1:1234/invocations
 
-## 🧮 **Assignment 5 – Find-S and Candidate Elimination Algorithms**
 
-### Concepts:
+✅ Expected output:
 
-These are **concept learning algorithms** used in classical AI.
+[1]
 
-#### 🔹 Find-S Algorithm:
 
-* Starts with the **most specific hypothesis**.
-* Only considers **positive examples**.
-* Gradually generalizes hypothesis to include all positive instances.
+Stop the server after testing
+Press Ctrl + C in the serving terminal.
 
-Example:
-Initial hypothesis = `{ϕ, ϕ, ϕ, ϕ}`
-After positive example = `{Sunny, Warm, ?, ?, ?}`
 
-#### 🔹 Candidate Elimination Algorithm (CEA):
 
-* Maintains two sets:
 
-  * **S (Specific boundary)** → most specific hypotheses.
-  * **G (General boundary)** → most general hypotheses.
-* Refines both S and G using positive and negative examples.
-* The intersection gives the **Version Space** (set of consistent hypotheses).
+========================
+Ass 3
 
-📘 *Summary:*
-These algorithms demonstrate **how a model “learns” concept boundaries** from examples — foundational to machine learning logic.
+nano inventory "1st and 3rd take "
 
----
+nano ansible .cfg "path copy and paste "
+pwd "for path"
 
-## 📈 **Assignment 6 – Naïve Bayes Classifiers**
+ssh-keygen -t ed25519 -c "ansible"
 
-### Concepts:
+ansible "ADD then tab"
 
-You study **probabilistic classification** using Bayes’ Theorem.
+ls -l -/.ssh/
 
-#### 🔹 Bayes Theorem:
+cat -/.ssh/ansible.pub   "copy all"
 
-[
-P(A|B) = \frac{P(B|A) \times P(A)}{P(B)}
-]
+nano inventory ip change
 
-* **P(A|B):** Probability of A given B (posterior)
-* **P(B|A):** Likelihood
-* **P(A):** Prior probability
-* **P(B):** Evidence
+nano -/.ssh/authorized_keys "paste all"
 
-#### 🔹 Types of Naïve Bayes:
+in other terminal :
+ansible all -m ping 
 
-1. **Gaussian NB** → For continuous numeric data (uses normal distribution).
-2. **Multinomial NB** → For text classification (word counts).
-3. **Bernoulli NB** → For binary features (spam filtering).
+ansible all -m builtin.apt -a "name=apache2 state=presented" --become
 
-#### 🔹 Key Steps:
 
-* Handle missing values
-* One-hot encoding
-* Feature scaling
-* Model training with `GaussianNB()`
-* Evaluate with accuracy, confusion matrix, precision, recall, F1-score.
+ls
 
-📘 *Summary:*
-Naïve Bayes is a **fast and effective classifier** based on probability and independence assumptions.
+cat 'ansible commands Assignment - III.txt'
 
----
 
-## 🌲 **Assignment 7 – Random Forest Algorithm**
+change only "d ** ubuntu"
 
-### Concepts:
+cd playbooks
+ls
+cd ..
+ansible-playbook/java_playbook.yml
+ansible-playbook playboos/deploy_website.yml
 
-You learn **ensemble learning** using multiple decision trees.
+cd playbooks
+code .
+"update playbook"
 
-#### 🔹 Ensemble Idea:
+"  https://www.tooplate.com/zip-templates/2103_central.zip  "
 
-Combines results from many models → improves accuracy.
 
-#### 🔹 Working Steps:
+ASS3 End
+=====
 
-1. Take random samples of dataset (bootstrapping).
-2. Build decision trees on each subset.
-3. Combine predictions using **majority voting** or **averaging**.
 
-#### 🔹 Types:
 
-* **Bagging:** Random sampling + independent trees.
-* **Boosting:** Sequential training (each new model corrects errors of previous).
 
-#### 🔹 Key Parameters:
+lab only-->
+🧩 Assignment 1 – Job Build & Test Execution using Jenkins
+Set A
 
-* `n_estimators` → number of trees.
-* `max_depth` → tree depth.
-* `min_samples_split` → minimum data to split a node.
-* `random_state` → reproducibility.
+Create a Jenkins Freestyle job to:
 
-#### 🔹 Applications:
+Fetch code from GitHub.
 
-Used for classification (like credit default prediction) and regression tasks.
+Build using Maven.
 
-📘 *Summary:*
-Random Forest reduces overfitting and provides **high accuracy and robustness**.
+Archive artifacts.
 
----
+Use post-build actions for success and failure cases.
 
-## ⚙️ **Assignment 8 – k-Nearest Neighbors (k-NN)**
+Add Jenkins email notification.
 
-### Concepts:
+Configure Git SCM, build triggers, and environment variables.
 
-A **distance-based supervised algorithm** for classification or regression.
+Set B
 
-#### 🔹 How it Works:
+Create a Jenkins freestyle job that extends the basic Docker workflow with:
 
-1. Choose **K** (number of neighbors).
-2. Calculate distance (Euclidean, Manhattan, or Minkowski).
-3. Select K nearest points.
-4. Predict based on **majority class** (classification) or **average** (regression).
+Git triggers for new code pushes.
 
-#### 🔹 Distance Formula:
+Build Docker image using build args (BUILD_ID, GIT_COMMIT).
 
-[
-\text{Euclidean Distance} = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}
-]
+Multi-stage Docker build and tag image dynamically.
 
-#### 🔹 Key Characteristics:
+Push to Docker Hub and configure email alerts for build status.
 
-* **Lazy learner** → No training phase.
-* **Non-parametric** → No assumptions about data distribution.
+Create two linked Jenkins jobs:
 
-#### 🔹 Pros:
+Job A (Build): Pull code, build Maven project, archive artifact.
 
-* Simple, intuitive.
-* Works well for small datasets.
+Job B (Deploy): Triggered post-build, deploy artifact to target directory.
 
-#### 🔹 Cons:
+Set C
 
-* Slow for large datasets.
-* Sensitive to scale and noise.
+Design and document a fully automated CI/CD freestyle job using Jenkins that leverages on-demand EC2 instances as dynamic build agents.
 
-📘 *Summary:*
-k-NN predicts output by “voting” among the nearest data points.
+⚙️ Assignment 2 – Cross-Environment Pipeline Synthesis with Groovy DSL
+Set A
 
----
+Write a Declarative Pipeline to:
 
-## 🎓 **Overall Learning Outcomes**
+Checkout from Git.
 
-By completing all assignments, you will:
-✅ Understand and implement core ML algorithms.
-✅ Work with real-world datasets using Python.
-✅ Learn data preprocessing and model evaluation.
-✅ Be ready for applied ML projects.
+Build with Maven.
 
----
+Run tests, SonarQube, and quality gate.
 
-Would you like me to generate this **full concept explanation as a formatted PDF or .docx (Word)** file for study or submission?
+Archive artifacts.
 
+Add environment variables and post actions for results.
+
+Set B
+
+Implement multi-branch pipeline.
+
+Add shared library integration.
+
+Define parameters for environment-specific builds (dev, stage, prod).
+
+Set C
+
+Demonstrate Jenkins Shared Library use (vars, resources, src).
+
+Show pipeline using multiple Docker agents and containers.
+
+🧰 Assignment 3 – Deploying Configurations with Ansible Playbooks
+Set A
+
+Launch two VMs (Debian + RedHat).
+
+Create ansible.cfg and inventory files.
+
+Run these ad-hoc commands:
+
+Install apache2/httpd.
+
+Demonstrate copy, file, service, apt, yum, user, setup modules.
+
+Set B
+
+Launch 3 VMs (2 Debian + 1 RedHat).
+
+Create playbooks to:
+
+Update apt, install Java, show version.
+
+Install and start Nginx.
+
+Add multiple users.
+
+Set C
+
+Create playbook to:
+
+Install Nginx.
+
+Download project from tooplate.com
+.
+
+Deploy to /var/www/html.
+
+Make accessible via IP.
+
+Deploy and configure Time Service using handlers and conditionals.
+
+🧮 Assignment 4 – Ansible Variable Management, Templating, and Roles
+Set A
+
+Launch 2 VMs (Debian family).
+
+Create ansible.cfg and inventory.
+
+Create host_vars and group_vars.
+
+Demonstrate variable usage with user creation and debug.
+
+Set B
+
+Create template directory with:
+
+index.html.j2 showing hostname & IP.
+
+nginx.conf.j2 with configuration.
+
+Write playbooks to install Nginx and copy configs.
+
+Set C
+
+Create apache role (for Debian) serving hostname/IP.
+
+Create httpd role (for RedHat) serving hostname/IP.
+
+☸️ Assignment 5 – Kubernetes (K8s) Deployment Practical
+Set A
+
+Deploy PostgreSQL + Adminer on a K8s cluster (1 master, 1 worker).
+
+Set B
+
+Deploy two-tier app (PostgreSQL + Go API).
+
+Set C
+
+Deploy three-tier app:
+
+PostgreSQL database.
+
+Go API.
+
+Frontend consuming API.
+
+🤖 Assignment 6 – Introduction to MLOps with MLflow
+Set A
+
+Launch MLflow tracking server & client.
+
+View experiment metadata.
+
+Display default experiment name & stage.
+
+Create “apples” experiment with tags.
+
+Generate synthetic dataset for apple sales.
+
+Train and log model using MLflow Tracking.
+
+Set B
+
+Launch MLflow tracking server for hyperparameter tuning.
+
+Optimize Wine Quality Prediction model with parameters:
+
+Learning Rate
+
+Momentum
+
+Steps:
+
+Prepare Data
+
+Define Model
+
+Set Up & Run Optimization
+
+Analyze Results
+
+Register Best Model
+
+Set C
+
+Deploy model locally via REST API.
+
+Build and test Docker container for deployment.
+----->end
+
+
+s
