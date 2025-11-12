@@ -389,3 +389,17 @@ Build and test Docker container for deployment.
 
 
 s
+
+| **Type**        | **Protocol** | **Port Range** | **Source** |
+| --------------- | ------------ | -------------- | ---------- |
+| SSH             | TCP          | 22             | 0.0.0.0/0  |
+| Custom TCP Rule | TCP          | 30000          | 0.0.0.0/0  |
+| Custom TCP Rule | TCP          | 30009          | 0.0.0.0/0  |
+| Custom TCP Rule | TCP          | 27017          | 0.0.0.0/0  |
+| Custom TCP Rule | TCP          | 30007          | 0.0.0.0/0  |
+| Custom TCP Rule | TCP          | 8080           | 0.0.0.0/0  |
+| Custom TCP Rule | TCP          | 6443           | 0.0.0.0/0  |
+| PostgreSQL      | TCP          | 5432           | 0.0.0.0/0  |
+| Custom TCP Rule | TCP          | 8081           | 0.0.0.0/0  |
+| Custom TCP Rule | TCP          | 30008          | 0.0.0.0/0  |
+
